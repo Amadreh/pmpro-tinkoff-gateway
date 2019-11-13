@@ -2,7 +2,9 @@
 /*
 Plugin Name: Tinkoff Gateway for Paid Memberships Pro
 Description: Tinkoff Gateway for Paid Memberships Pro
-Version: .1
+Author: Андрей Ерошкин
+Version: 0.0.1
+Author URI: https://amadreh.ru
 */
 
 define("PMPRO_TINKOFFGATEWAY_DIR", dirname(__FILE__));

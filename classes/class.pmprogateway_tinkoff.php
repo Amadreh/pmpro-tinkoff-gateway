@@ -446,12 +446,11 @@
 			$tinkoff->SetOrderEmail('andreroshkin@gmail.com'); // Обязательно указать емайл
 			$tinkoff->SetTaxation('usn_income'); // Тип налогообложения 
 			$tinkoff->Init(); // Инициализация заказа, и запись в БД если прописаны настройки
-			$tinkoff->doRedirect(); // Переадресация на оплату заказа
-
-			$tinkoff->getResultResponse();
 			//simulate a successful charge
-			$order->payment_transaction_id = "TEST" . $order->code;
+			$tinkoff->doRedirect(); 
+			
 			$order->updateStatus("success");
+			$order->payment_transaction_id = "TEST" . $order->code;
 			
 			return true;						
 		}
