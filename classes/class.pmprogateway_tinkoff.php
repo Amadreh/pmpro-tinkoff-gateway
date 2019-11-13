@@ -425,25 +425,35 @@
 			if(empty($order->code))
 				$order->code = $order->getRandomCode();
 			
+			
+			global $current_user;
+			$user_email = $current_user->user_email;
+			$current_locale = pll_current_language();
+			global $pmpro_level;	
+			$initial_payment_raw = $pmpro_level->initial_payment; 
+			$rate = 70.78; // Курс
+			$initial_payment = $initial_payment_raw * $rate * 100;
+			
 			require_once 'tinkoff.params.php';
+
 			//code to charge with gateway and test results would go here
 			$tinkoff->AddMainInfo(
 				array(
 					'OrderId'     => $order->code, // Не будет работать при подключении к БД, будет автоматически ставиться свой номер заказа из базы данных, рекомендуется всегда оставлять значение = 1 при использовании PDO DB
-					'Description' => 'Описание заказа до 250 символов', // Описание заказа
-					'Language'    => 'ru', // Язык интерфейса Тинькофф
+					'Description' => __("1 year for a member", "pmpro"), // Описание заказа
+					'Language'    => $current_locale, // Язык интерфейса Тинькофф
 				)
 			);
 			$tinkoff->SetRecurrent(); // Указать что рекуррентный платёж, можно не указывать
 			$tinkoff->AddItem(
 				array(
-					'Name'     => 'Название товара 128 символов', // Максимум 128 символов
-					'Price'    => 100, // В копейках
+					'Name'     => __("1 year for a member", "pmpro"), // Максимум 128 символов
+					'Price'    => (float) $initial_payment, // В копейках
 					"Quantity" => (float) 1.00, // Вес или количество
 					"Tax"      => "none", // В чеке НДС
 				)
 			);
-			$tinkoff->SetOrderEmail('andreroshkin@gmail.com'); // Обязательно указать емайл
+			$tinkoff->SetOrderEmail($user_email); // Обязательно указать емайл
 			$tinkoff->SetTaxation('usn_income'); // Тип налогообложения 
 			$tinkoff->Init(); // Инициализация заказа, и запись в БД если прописаны настройки
 			//simulate a successful charge
