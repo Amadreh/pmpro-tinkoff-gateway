@@ -105,7 +105,8 @@
 				'tax_rate',
 				'accepted_credit_cards',
 				'terminal_key',
-				'password'
+				'password',
+				'rate'
 			);
 
 			return $options;
@@ -154,6 +155,14 @@
 			</th>
 			<td>
 				<input type="text" id="password" name="password" size="60" value="<?php echo esc_attr($values['password'])?>" />
+			</td>
+		</tr>
+		<tr class="gateway gateway_tinkoff" <?php if($gateway != "tinkoff") { ?>style="display: none;"<?php } ?>>
+			<th scope="row" valign="top">
+				<label for="rate"><?php _e('Rate', 'pmpro');?>:</label>
+			</th>
+			<td>
+				<input type="text" id="rate" name="rate" size="60" value="<?php echo esc_attr($values['rate'])?>" />
 			</td>
 		</tr>
 		<?php
