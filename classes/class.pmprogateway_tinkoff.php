@@ -464,6 +464,7 @@
 		public function tinkoff_pay(&$order){
 			global $current_user;
 			$user_email = $current_user->user_email;
+			$display_name = $current_user->display_name;
 			$current_locale = pll_current_language();
 			global $pmpro_level;	
 			$initial_payment_raw = $pmpro_level->initial_payment; 
@@ -493,14 +494,14 @@
 			$tinkoff->AddMainInfo(
 				array(
 					'OrderId'     => $order->code, // Не будет работать при подключении к БД, будет автоматически ставиться свой номер заказа из базы данных, рекомендуется всегда оставлять значение = 1 при использовании PDO DB
-					'Description' => __("1 year for a member", "pmpro"), // Описание заказа
+					'Description' => __("1 year for a member ", "pmpro").$display_name, // Описание заказа
 					'Language'    => $current_locale, // Язык интерфейса Тинькофф
 				)
 			);
 			$tinkoff->SetRecurrent(); // Указать что рекуррентный платёж, можно не указывать
 			$tinkoff->AddItem(
 				array(
-					'Name'     => __("1 year for a member", "pmpro"), // Максимум 128 символов
+					'Name'     => __("1 year for a member ", "pmpro").$display_name, // Максимум 128 символов
 					'Price'    => (float) $initial_payment, // В копейках
 					"Quantity" => (float) 1.00, // Вес или количество
 					"Tax"      => "none", // В чеке НДС
