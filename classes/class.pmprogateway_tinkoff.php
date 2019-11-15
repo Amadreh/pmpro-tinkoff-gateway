@@ -1,5 +1,6 @@
 <?php
 	//load classes init method
+	use NeatekTinkoff\NeatekTinkoff\NeatekTinkoff;
 	add_action('init', array('PMProGateway_tinkoff', 'init'));
 
 	/**
@@ -425,7 +426,18 @@
 			if(empty($order->code))
 				$order->code = $order->getRandomCode();
 			
+			//simulate a successful charge
+			$tinkoff = $this->tinkoff_pay($order);
+			$tinkoff->doRedirect(); 
+			$tinkoff->getResultResponse();
+
+			$order->updateStatus("success");
+			$order->payment_transaction_id = "TEST" . $order->code;
 			
+			return true;						
+		}
+
+		public function tinkoff_pay(&$order){
 			global $current_user;
 			$user_email = $current_user->user_email;
 			$current_locale = pll_current_language();
@@ -434,7 +446,24 @@
 			$rate = 70.78; // Курс
 			$initial_payment = $initial_payment_raw * $rate * 100;
 			
-			require_once 'tinkoff.params.php';
+
+			require_once 'tinkoff.class.php';
+
+			$tinkoff = new NeatekTinkoff(
+				array(
+					array(
+						'TerminalKey' => '1558724162733DEMO',
+						'Password'    => '0t58jdqkd5bhiqf2',
+					),
+					array(
+						'db_name' => '',
+						'db_host' => '',
+						'db_user' => '',
+						'db_pass' => '',
+					),
+				)
+			);
+
 
 			//code to charge with gateway and test results would go here
 			$tinkoff->AddMainInfo(
@@ -456,13 +485,7 @@
 			$tinkoff->SetOrderEmail($user_email); // Обязательно указать емайл
 			$tinkoff->SetTaxation('usn_income'); // Тип налогообложения 
 			$tinkoff->Init(); // Инициализация заказа, и запись в БД если прописаны настройки
-			//simulate a successful charge
-			$tinkoff->doRedirect(); 
-			
-			$order->updateStatus("success");
-			$order->payment_transaction_id = "TEST" . $order->code;
-			
-			return true;						
+			return $tinkoff;
 		}
 		
 		/*
