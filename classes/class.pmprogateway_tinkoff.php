@@ -66,7 +66,7 @@
 			$gateway = pmpro_getOption("gateway");
 			if($gateway == "tinkoff")
 			{
-				// add_action('pmpro_checkout_preheader', array('PMProGateway_tinkoff', 'pmpro_checkout_preheader'));
+				add_action('pmpro_checkout_preheader', array('PMProGateway_tinkoff', 'pmpro_checkout_preheader'));
 				add_filter('pmpro_checkout_order', array('PMProGateway_tinkoff', 'pmpro_checkout_order'));
 				add_filter('pmpro_include_billing_address_fields', array('PMProGateway_tinkoff', 'pmpro_include_billing_address_fields'));
 				// add_filter('pmpro_include_cardtype_field', array('PMProGateway_tinkoff', 'pmpro_include_billing_address_fields'));
@@ -103,7 +103,9 @@
 				'use_ssl',
 				'tax_state',
 				'tax_rate',
-				'accepted_credit_cards'
+				'accepted_credit_cards',
+				'terminal_key',
+				'password'
 			);
 
 			return $options;
@@ -139,7 +141,20 @@
 			</td>
 		</tr>
 		<tr class="gateway gateway_tinkoff" <?php if($gateway != "tinkoff") { ?>style="display: none;"<?php } ?>>
-			<?php // tinkoff custom pamyment settings here ?>
+			<th scope="row" valign="top">
+				<label for="terminal_key"><?php _e('TerminalKey', 'pmpro');?>:</label>
+			</th>
+			<td>
+				<input type="text" id="terminal_key" name="terminal_key" size="60" value="<?php echo esc_attr($values['terminal_key'])?>" />
+			</td>
+		</tr>
+		<tr class="gateway gateway_tinkoff" <?php if($gateway != "tinkoff") { ?>style="display: none;"<?php } ?>>
+			<th scope="row" valign="top">
+				<label for="password"><?php _e('Password', 'pmpro');?>:</label>
+			</th>
+			<td>
+				<input type="text" id="password" name="password" size="60" value="<?php echo esc_attr($values['password'])?>" />
+			</td>
 		</tr>
 		<?php
 		}
