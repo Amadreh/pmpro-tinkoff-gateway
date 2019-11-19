@@ -473,7 +473,7 @@
 			$current_locale = pll_current_language();
 			global $pmpro_level;	
 			$initial_payment_raw = $pmpro_level->initial_payment; 
-			$rate = 70.78; // Курс
+			$rate = 70; // Курс
 			$initial_payment = $initial_payment_raw * $rate * 100;
 			
 
