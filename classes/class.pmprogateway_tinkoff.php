@@ -255,11 +255,6 @@
 			//show our submit buttons
 			?>
 
-			<h1><? 
-				$options = get_option('PMProGateway_tinkoff' ); 
-				var_dump($options);
-			?></h1>
-
 			<span id="pmpro_submit_span">
 				<input type="hidden" name="submit-checkout" value="1" />
 				<input type="submit" class="pmpro_btn pmpro_btn-submit-checkout process_card" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'pmpro'); } else { _e('Submit and Confirm', 'pmpro');}?> &raquo;" />
