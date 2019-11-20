@@ -462,13 +462,16 @@
 		}
 
 		public function tinkoff_pay(&$order){
+			$terminal_key = pmpro_getOption("terminal_key");
+			$password = pmpro_getOption("password");
+			$rate = pmpro_getOption("rate");
+
 			global $current_user;
 			$user_email = $current_user->user_email;
 			$display_name = $current_user->display_name;
 			$current_locale = pll_current_language();
 			global $pmpro_level;	
 			$initial_payment_raw = $pmpro_level->initial_payment; 
-			$rate = 70; // Курс
 			$initial_payment = $initial_payment_raw * $rate * 100;
 			
 
@@ -477,8 +480,8 @@
 			$tinkoff = new NeatekTinkoff(
 				array(
 					array(
-						'TerminalKey' => '1558724162733DEMO',
-						'Password'    => '0t58jdqkd5bhiqf2',
+						'TerminalKey' => $terminal_key,
+						'Password'    => $password,
 					),
 					array(
 						'db_name' => '',
