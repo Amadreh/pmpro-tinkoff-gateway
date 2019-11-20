@@ -477,8 +477,8 @@
 			$tinkoff = new NeatekTinkoff(
 				array(
 					array(
-						'TerminalKey' => '1558724162733',
-						'Password'    => 'fpw0sasfasm9zklh',
+						'TerminalKey' => '1558724162733DEMO',
+						'Password'    => '0t58jdqkd5bhiqf2',
 					),
 					array(
 						'db_name' => '',
@@ -498,7 +498,6 @@
 					'Language'    => $current_locale, // Язык интерфейса Тинькофф
 				)
 			);
-			$tinkoff->SetRecurrent(); // Указать что рекуррентный платёж, можно не указывать
 			$tinkoff->AddItem(
 				array(
 					'Name'     => __("1 year for a member ", "pmpro").$display_name, // Максимум 128 символов
